@@ -157,3 +157,49 @@ form .textarea textarea{
     height: 150px; /* Tamanho fixo da imagem */
 }
 
+/* Adicione essa seção ao seu CSS existente */
+
+/* ... (seu CSS existente) ... */
+
+/* Adiciona a configuração para telas menores usando media queries */
+@media screen and (max-width: 1024px) {
+    #estrela {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+  
+    .container {
+      width: 80%; /* Ajuste a largura dos containers para se adaptar à tela */
+      margin: 10px 0; /* Margem entre os containers */
+    }
+  
+    .star-widget,
+    .profile_avaliacao {
+      width: 100%; /* Ajuste a largura dos elementos internos dos containers */
+      text-align: center;
+    }
+  
+    .profile_avaliacao {
+      display: flex; /* Ativa o flexbox para o elemento */
+      align-items: center; /* Alinha os itens verticalmente */
+      gap: 10px; /* Espaçamento entre a imagem e o texto */
+    }
+  
+    .profile_avaliacao img {
+      height: 50px; /* Define a altura das imagens */
+      max-width: 20%; /* Garante que as imagens não ultrapassem o tamanho máximo */
+      border-radius: 50%; /* Ajusta a borda da imagem para circular */
+    }
+  
+    .star-widget label,
+    form header,
+    form .textarea textarea {
+      font-size: 16px; /* Reduz o tamanho da fonte em telas menores */
+    }
+  
+    .btn button {
+      width: 80%; /* Ajusta a largura do botão */
+    }
+  }
+  
