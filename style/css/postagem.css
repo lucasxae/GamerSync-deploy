@@ -217,6 +217,7 @@ body{
     border: none;
     outline: none;
     background-color: #151236; 
+    color: grey;
 }
 
 .lateral_pesquisa {
