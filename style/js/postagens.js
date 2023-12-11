@@ -33,52 +33,62 @@
                 const respostaUsuarios = await fetch("https://lame-truck-production.up.railway.app/friend");
                 const usuarios = await respostaUsuarios.json();
         
-                const feed = document.querySelector('.feed');
+                const feedPostsContainer = document.querySelector('.feedPostsContainer');
+                const promises = [];
         
-                postagens.forEach(async (postagem, index) => {
+                // Limpar as postagens existentes
+                feedPostsContainer.innerHTML = '';
+        
+                // Inverter a ordem das postagens para exibir as mais recentes primeiro
+                for (let i = postagens.length - 1; i >= 0; i--) {
+                    const postagem = postagens[i];
+                    const usuarioAtual = usuarios[i % usuarios.length];
+        
                     const elementoPostagem = document.createElement('div');
                     elementoPostagem.classList.add('post');
         
-                    const usuarioAtual = usuarios[index % usuarios.length]; // Calcula o índice do usuário
-        
-                    elementoPostagem.innerHTML = `
-                        <div class="post_avatar">
-                            <img src="${usuarioAtual.avatar}" alt="${usuarioAtual.username}'s avatar"/>
+                    const postagemHTML = `
+                <div class="post_avatar">
+                    <img src="${usuarioAtual.avatar}" alt="${usuarioAtual.username}'s avatar"/>
+                </div>
+                <div class="post_body">
+                    <div class="post_header">
+                        <div class="post_headerText">
+                            <h3>
+                                ${usuarioAtual.username}
+                                <span class="post_headerSpecial">@${usuarioAtual.username}</span>
+                            </h3>
                         </div>
-                        <div class="post_body">
-                            <div class="post_header">
-                                <div class="post_headerText">
-                                    <h3>
-                                        ${usuarioAtual.username}
-                                        <span class="post_headerSpecial">@${usuarioAtual.username}</span>
-                                    </h3>
-                                </div>
-                                <div class="post_headerDescription">
-                                    <p>${postagem.conteudo}</p>
-                                </div>
-                            </div>
-                            <div class="post_footer">
-                                <span class="material-symbols-outlined">repeat</span>
-                                <span class="material-symbols-outlined">mood</span>
-                                <span class="material-symbols-outlined">arrow_downward</span>
-                            </div>
+                        <div class="post_headerDescription">
+                            <p>${postagem.conteudo}</p>
                         </div>
-                    `;
+                    </div>
+                    <div class="post_footer">
+                        <span class="material-symbols-outlined">repeat</span>
+                        <span class="material-symbols-outlined">mood</span>
+                        <span class="material-symbols-outlined">arrow_downward</span>
+                    </div>
+                </div>
+            `;
         
-                    feed.appendChild(elementoPostagem);
-                });
+                    elementoPostagem.innerHTML = postagemHTML;
+        
+                    promises.push(new Promise((resolve) => {
+                        feedPostsContainer.appendChild(elementoPostagem); // Adiciona as postagens ao contêiner
+                        resolve();
+                    }));
+                }
+        
+                await Promise.all(promises);
             } catch (erro) {
                 console.error('Erro ao buscar postagens:', erro);
             }
         }
         
-          
-          document.addEventListener('DOMContentLoaded', buscarEExibirPostagens);
-          
         
+        document.addEventListener('DOMContentLoaded', buscarEExibirPostagens);
         
-        
-          document.addEventListener('DOMContentLoaded', () => {
+        document.addEventListener('DOMContentLoaded', () => {
             buscarEExibirPostagens();
         
             const form = document.querySelector('.postBox form');
@@ -111,3 +121,4 @@
                 }
             });
         });
+        
